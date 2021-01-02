@@ -1,3 +1,8 @@
+hs.loadSpoon("SpoonInstall")
+Install = spoon.SpoonInstall
+
+Install:andUse("Tunnelblick")
+
 hs.urlevent.bind("hammerspoon-reload", function()
   hs.reload()
 end)
@@ -13,4 +18,11 @@ end)
 hs.urlevent.bind("wifi-restart", function()
   hs.wifi.setPower(false)
   hs.wifi.setPower(true)
+end)
+
+hs.urlevent.bind("vpn-connect", function(eventName, params)
+  spoon.Tunnelblick.connection_name = params.connection
+  spoon.Tunnelblick.username = params.username
+  spoon.Tunnelblick.password_fn = function() return params.password end
+  spoon.Tunnelblick:connect()
 end)
