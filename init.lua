@@ -1,7 +1,6 @@
 hs.loadSpoon("SpoonInstall")
-Install = spoon.SpoonInstall
 
-Install:andUse("Tunnelblick")
+spoon.SpoonInstall:andUse("Tunnelblick")
 
 hs.urlevent.bind("hammerspoon-reload", function()
   hs.reload()
