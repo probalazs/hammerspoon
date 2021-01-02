@@ -1,4 +1,2 @@
-hs.urlevent.bind("wifi-restart", function()
-  hs.wifi.setPower(false)
-  hs.wifi.setPower(true)
-end)
+require "wifi";
+require "hammerspoon";
