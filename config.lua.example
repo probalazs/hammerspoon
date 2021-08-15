@@ -1,0 +1,18 @@
+local config = {
+  ["vpn"] = {
+    ["username"] = "user",
+    ["connectionName"] = "emarsys-remote-access"
+  },
+  ["meetingRooms"] = {
+    {
+      ["text"] = "First room",
+      ["id"] = "123"
+    },
+    {
+      ["text"] = "Second room",
+      ["id"] = "456"
+    }
+  }
+}
+
+return config
