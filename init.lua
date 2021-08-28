@@ -4,15 +4,6 @@ libs = require("libs")
 hs.loadSpoon("SpoonInstall")
 
 spoon.SpoonInstall:andUse("Tunnelblick")
-spoon.SpoonInstall:andUse("AppLauncher", {
-  hotkeys = {
-    ["5"] = "Slack",
-    ["6"] = "Microsoft Outlook",
-    ["7"] = "Google Chrome",
-    ["8"] = "Visual Studio Code",
-    ["9"] = "iTerm",
-  }
-})
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "P", function()
   local Actions = libs.enum({
