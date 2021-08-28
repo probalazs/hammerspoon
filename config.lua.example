@@ -1,4 +1,5 @@
 local config = {
+  ["terminal"] = "iTerm",
   ["vpn"] = {
     ["username"] = "user",
     ["connectionName"] = "emarsys-remote-access"
