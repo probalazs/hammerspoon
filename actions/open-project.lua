@@ -2,6 +2,8 @@ config = require("../config")
 
 local module = {}
 
+module.choice = {["text"] = "Open project", ["action"] = "OPEN_PROJECT"}
+
 function module.run()
     local choices = {}
     for projectFolder in hs.fs.dir(config.projects.folder) do

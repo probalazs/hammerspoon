@@ -1,5 +1,7 @@
 local module = {}
 
+module.choice = {["text"] = "Kibana", ["action"] = "OPEN_KIBANA"}
+
 function module.run()
     local _, response = hs.http.post(
                             "http://eslb.emar.sys:9200/kibana-int/dashboard/_search",

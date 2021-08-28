@@ -2,6 +2,8 @@ config = require("../config")
 
 local module = {}
 
+module.choice = {["text"] = "Get secrets", ["action"] = "GET_SECRETS"}
+
 function module.run()
     local output = hs.execute("kubectl get secrets -n " ..
                                   config.secrets.namespace .. " -o json", true)

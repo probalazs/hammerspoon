@@ -13,32 +13,23 @@ hs.loadSpoon("SpoonInstall")
 
 spoon.SpoonInstall:andUse("Tunnelblick")
 
+local getChoices = function(actions)
+    local choices = {}
+    for _, action in pairs(actions) do table.insert(choices, action.choice) end
+    return choices;
+end
+
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "P", function()
-    local Actions = libs.enum({
-        "GOTO_MEETING_ROOM", "OPEN_LAAS", "CONNECT_EMARSYS_VPN", "RESTART_WIFI",
-        "OPEN_PROJECT", "OPEN_KIBANA", "GET_SECRETS"
-    })
-    local choices = {
-        {["text"] = "Goto meeting room", ["action"] = Actions.GOTO_MEETING_ROOM},
-        {["text"] = "Open project", ["action"] = Actions.OPEN_PROJECT},
-        {
-            ["text"] = "Connect emarsys vpn",
-            ["action"] = Actions.CONNECT_EMARSYS_VPN
-        }, {["text"] = "Laas", ["action"] = Actions.OPEN_LAAS},
-        {["text"] = "Kibana", ["action"] = Actions.OPEN_KIBANA},
-        {["text"] = "Get secrets", ["action"] = Actions.GET_SECRETS},
-        {["text"] = "Restart wifi", ["action"] = Actions.RESTART_WIFI}
+    local actions = {
+        goToMeetingRoom, openProject, connectToEmarsysVpn, openLaas, openKibana,
+        getSecrets, restartWifi
     }
-    libs.showDailog(choices, function(choice)
-        local actions = {
-            [Actions.RESTART_WIFI] = restartWifi,
-            [Actions.OPEN_LAAS] = openLaas,
-            [Actions.OPEN_KIBANA] = openKibana,
-            [Actions.GOTO_MEETING_ROOM] = goToMeetingRoom,
-            [Actions.OPEN_PROJECT] = openProject,
-            [Actions.GET_SECRETS] = getSecrets,
-            [Actions.CONNECT_EMARSYS_VPN] = connectToEmarsysVpn
-        }
-        actions[choice.action].run()
+    libs.showDailog(getChoices(actions), function(choice)
+        for _, action in pairs(actions) do
+            if action.choice.action == choice.action then
+                action.run()
+            end
+        end
     end)
 end)
+
