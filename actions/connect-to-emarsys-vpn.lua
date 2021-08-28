@@ -8,6 +8,7 @@ module.choice = {
 }
 
 function module.run()
+    hs.focus()
     local _, code = hs.dialog.textPrompt("Enter the 2FA code", "")
     spoon.Tunnelblick.connection_name = config.vpn.connectionName
     spoon.Tunnelblick.username = config.vpn.username
