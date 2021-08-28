@@ -3,6 +3,10 @@ local config = {
     ["username"] = "user",
     ["connectionName"] = "emarsys-remote-access"
   },
+  ["projects"] = {
+    ["folder"] = "/Users/xxx/projects",
+    ["editor"] = "/usr/local/bin/code"
+  },
   ["meetingRooms"] = {
     {
       ["text"] = "First room",

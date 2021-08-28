@@ -7,10 +7,12 @@ spoon.SpoonInstall:andUse("Tunnelblick")
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "P", function()
     local Actions = libs.enum({
-        "GOTO_MEETING_ROOM", "OPEN_LAAS", "CONNECT_EMARSYS_VPN", "RESTART_WIFI"
+        "GOTO_MEETING_ROOM", "OPEN_LAAS", "CONNECT_EMARSYS_VPN", "RESTART_WIFI",
+        "OPEN_PROJECT"
     })
     local choices = {
         {["text"] = "Goto meeting room", ["action"] = Actions.GOTO_MEETING_ROOM},
+        {["text"] = "Open project", ["action"] = Actions.OPEN_PROJECT},
         {
             ["text"] = "Connect emarsys vpn",
             ["action"] = Actions.CONNECT_EMARSYS_VPN
@@ -22,6 +24,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "P", function()
             [Actions.RESTART_WIFI] = restartWifi,
             [Actions.OPEN_LAAS] = openLaas,
             [Actions.GOTO_MEETING_ROOM] = goToMeetingRoom,
+            [Actions.OPEN_PROJECT] = openProject,
             [Actions.CONNECT_EMARSYS_VPN] = connectToEmarsysVpn
         }
         actions[choice.action]()
@@ -61,5 +64,18 @@ function openLaas()
             "https://laas-kibana.service.emarsys.net/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:" ..
                 choice.id ..
                 ",interval:auto,query:(match_all:()),sort:!('@timestamp',desc))")
+    end)
+end
+
+function openProject()
+    local choices = {}
+    for file in hs.fs.dir(config.projects.folder) do
+        if not libs.contains({".DS_Store", ".", ".."}, file) then
+            table.insert(choices, {["text"] = file})
+        end
+    end
+    libs.showDailog(choices, function(choice)
+        hs.execute(config.projects.editor .. " " .. config.projects.folder ..
+                       "/" .. choice.text)
     end)
 end
