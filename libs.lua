@@ -25,4 +25,14 @@ function libs.contains(list, searchedValue)
     return false
 end
 
+function libs.urlencode(url)
+    if url == nil then return end
+    url = url:gsub("\n", "\r\n")
+    url = url:gsub("([^%w ])", function(char)
+        return string.format("%%%02X", string.byte(char))
+    end)
+    url = url:gsub(" ", "+")
+    return url
+end
+
 return libs

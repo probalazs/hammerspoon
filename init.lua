@@ -8,7 +8,7 @@ spoon.SpoonInstall:andUse("Tunnelblick")
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "P", function()
     local Actions = libs.enum({
         "GOTO_MEETING_ROOM", "OPEN_LAAS", "CONNECT_EMARSYS_VPN", "RESTART_WIFI",
-        "OPEN_PROJECT"
+        "OPEN_PROJECT", "OPEN_KIBANA"
     })
     local choices = {
         {["text"] = "Goto meeting room", ["action"] = Actions.GOTO_MEETING_ROOM},
@@ -17,12 +17,14 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "P", function()
             ["text"] = "Connect emarsys vpn",
             ["action"] = Actions.CONNECT_EMARSYS_VPN
         }, {["text"] = "Laas", ["action"] = Actions.OPEN_LAAS},
+        {["text"] = "Kibana", ["action"] = Actions.OPEN_KIBANA},
         {["text"] = "Restart wifi", ["action"] = Actions.RESTART_WIFI}
     }
     libs.showDailog(choices, function(choice)
         local actions = {
             [Actions.RESTART_WIFI] = restartWifi,
             [Actions.OPEN_LAAS] = openLaas,
+            [Actions.OPEN_KIBANA] = openKibana,
             [Actions.GOTO_MEETING_ROOM] = goToMeetingRoom,
             [Actions.OPEN_PROJECT] = openProject,
             [Actions.CONNECT_EMARSYS_VPN] = connectToEmarsysVpn
@@ -69,13 +71,34 @@ end
 
 function openProject()
     local choices = {}
-    for file in hs.fs.dir(config.projects.folder) do
-        if not libs.contains({".DS_Store", ".", ".."}, file) then
-            table.insert(choices, {["text"] = file})
+    for projectFolder in hs.fs.dir(config.projects.folder) do
+        if not libs.contains({".DS_Store", ".", ".."}, projectFolder) then
+            table.insert(choices, {
+                ["text"] = projectFolder,
+                ["project"] = projectFolder
+            })
         end
     end
     libs.showDailog(choices, function(choice)
         hs.execute(config.projects.editor .. " " .. config.projects.folder ..
-                       "/" .. choice.text)
+                       "/" .. choice.project)
+    end)
+end
+
+function openKibana()
+    local _, response = hs.http.post(
+                            "http://eslb.emar.sys:9200/kibana-int/dashboard/_search",
+                            hs.json.encode({
+            ["query"] = {["query_string"] = {["query"] = "title:*"}},
+            ["size"] = 200
+        }), {["Accept"] = "application/json"})
+    local choices = {}
+    for _, index in pairs(hs.json.decode(response).hits.hits) do
+        table.insert(choices,
+                     {["text"] = index._id, ["id"] = libs.urlencode(index._id)})
+    end
+    libs.showDailog(choices, function(choice)
+        hs.urlevent.openURL(
+            "http://kibana.emar.sys/#/dashboard/elasticsearch/" .. choice.id)
     end)
 end
