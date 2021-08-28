@@ -35,4 +35,10 @@ function libs.urlencode(url)
     return url
 end
 
+function libs.startsWith(str, start) return str:sub(1, #start) == start end
+
+function libs.endsWith(str, ending)
+    return ending == "" or str:sub(-#ending) == ending
+end
+
 return libs

@@ -8,7 +8,7 @@ spoon.SpoonInstall:andUse("Tunnelblick")
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "P", function()
     local Actions = libs.enum({
         "GOTO_MEETING_ROOM", "OPEN_LAAS", "CONNECT_EMARSYS_VPN", "RESTART_WIFI",
-        "OPEN_PROJECT", "OPEN_KIBANA"
+        "OPEN_PROJECT", "OPEN_KIBANA", "GET_SECRETS"
     })
     local choices = {
         {["text"] = "Goto meeting room", ["action"] = Actions.GOTO_MEETING_ROOM},
@@ -18,6 +18,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "P", function()
             ["action"] = Actions.CONNECT_EMARSYS_VPN
         }, {["text"] = "Laas", ["action"] = Actions.OPEN_LAAS},
         {["text"] = "Kibana", ["action"] = Actions.OPEN_KIBANA},
+        {["text"] = "Get secrets", ["action"] = Actions.GET_SECRETS},
         {["text"] = "Restart wifi", ["action"] = Actions.RESTART_WIFI}
     }
     libs.showDailog(choices, function(choice)
@@ -27,6 +28,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "P", function()
             [Actions.OPEN_KIBANA] = openKibana,
             [Actions.GOTO_MEETING_ROOM] = goToMeetingRoom,
             [Actions.OPEN_PROJECT] = openProject,
+            [Actions.GET_SECRETS] = getSecrets,
             [Actions.CONNECT_EMARSYS_VPN] = connectToEmarsysVpn
         }
         actions[choice.action]()
@@ -100,5 +102,39 @@ function openKibana()
     libs.showDailog(choices, function(choice)
         hs.urlevent.openURL(
             "http://kibana.emar.sys/#/dashboard/elasticsearch/" .. choice.id)
+    end)
+end
+
+function getSecrets()
+    local output = hs.execute("kubectl get secrets -n " ..
+                                  config.secrets.namespace .. " -o json", true)
+    local choices = {}
+    for _, item in pairs(hs.json.decode(output).items) do
+        if not libs.endsWith(item.metadata.name, "-web") and
+            not libs.endsWith(item.metadata.name, "-backup") and
+            not libs.endsWith(item.metadata.name, "-tls") and
+            not libs.endsWith(item.metadata.name, "-jobs") and
+            not libs.endsWith(item.metadata.name, "-cert") and
+            not libs.startsWith(item.metadata.name, "default-token") then
+            table.insert(choices, {
+                ["text"] = item.metadata.name,
+                ["id"] = item.metadata.name
+            })
+        end
+    end
+    libs.showDailog(choices, function(choice)
+        local output = hs.execute(
+                           "kubectl get secret " .. choice.id .. " -n " ..
+                               config.secrets.namespace .. " -o json", true)
+        local secrets = {}
+        for name, value in pairs(hs.json.decode(output).data) do
+            table.insert(secrets, {
+                ["text"] = name,
+                ["subText"] = hs.base64.decode(value)
+            })
+        end
+        libs.showDailog(secrets, function(secret)
+            hs.pasteboard.setContents(secret.subText)
+        end)
     end)
 end
