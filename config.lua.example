@@ -4,6 +4,12 @@ local config = {
     ["username"] = "user",
     ["connectionName"] = "emarsys-remote-access"
   },
+  ["pages"] = {
+        {
+            ["text"] = "Telex",
+            ["url"] = "https://telex.hu"
+        }
+    },
   ["projects"] = {
     ["folder"] = "/Users/xxx/projects",
     ["editor"] = "/usr/local/bin/code"

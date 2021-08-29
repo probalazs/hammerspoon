@@ -10,6 +10,7 @@ getSecrets = require("actions.get-secrets")
 openMysqlDatabase = require("actions.open-mysql-database")
 reloadHammerspoonConfig = require("actions.reload-hammerspoon-config")
 clearCache = require("actions.clear-cache")
+openPage = require("actions.open-page")
 
 hs.loadSpoon("SpoonInstall")
 
@@ -23,8 +24,8 @@ end
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "P", function()
     local actions = {
-        goToMeetingRoom, openProject, connectToEmarsysVpn, openLaas, openKibana,
-        getSecrets, openMysqlDatabase, restartWifi, clearCache,
+        goToMeetingRoom, openPage, openProject, connectToEmarsysVpn, openLaas,
+        openKibana, getSecrets, openMysqlDatabase, restartWifi, clearCache,
         reloadHammerspoonConfig
     }
     libs.showDailog(getChoices(actions), function(choice)
