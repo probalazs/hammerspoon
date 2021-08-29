@@ -9,8 +9,10 @@ module.choice = {
 }
 
 function module.run()
-    local output = hs.execute(
-                       "ssh -t devmgmt1 '/usr/local/sbin/database.sh -l'", true)
+    local output = cache.getCacheOr("databases", function()
+        return hs.execute("ssh -t devmgmt1 '/usr/local/sbin/database.sh -l'",
+                          true)
+    end)
     local choices = {}
     for line in output:gmatch("([^\n]*)\n?") do
         if libs.startsWith(line, "  ") then

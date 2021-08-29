@@ -5,8 +5,11 @@ local module = {}
 module.choice = {["text"] = "Get secrets", ["action"] = "GET_SECRETS"}
 
 function module.run()
-    local output = hs.execute("kubectl get secrets -n " ..
-                                  config.secrets.namespace .. " -o json", true)
+    local output = cache.getCacheOr("secrets", function()
+        return hs.execute(
+                   "kubectl get secrets -n " .. config.secrets.namespace ..
+                       " -o json", true)
+    end)
     local choices = {}
     for _, item in pairs(hs.json.decode(output).items) do
         if not libs.endsWith(item.metadata.name, "-web") and
