@@ -1,4 +1,5 @@
 local config = {
+  ["teamMembers"] = { "Member 1", "Member 2" },
   ["terminal"] = "iTerm",
   ["vpn"] = {
     ["username"] = "user",
