@@ -1,13 +1,11 @@
-config = require("../config")
+local namespace = "editor"
 
 local module = {}
-
-module.choice = {["text"] = "Get secrets", ["action"] = "GET_SECRETS"}
 
 local getAllServices = function()
     local output = cache.getCacheOr("secrets", function()
         return hs.execute(
-                   "kubectl get secrets -n " .. config.secrets.namespace ..
+                   "kubectl get secrets -n " .. namespace ..
                        " -o json", true)
     end)
     return hs.json.decode(output).items
@@ -35,7 +33,7 @@ end
 
 local getSecrets = function(serviceName)
     local output = hs.execute("kubectl get secret " .. serviceName .. " -n " ..
-                                  config.secrets.namespace .. " -o json", true)
+                                  namespace .. " -o json", true)
     return hs.json.decode(output).data
 end
 

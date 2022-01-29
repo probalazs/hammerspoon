@@ -1,7 +1,5 @@
 local module = {}
 
-module.choice = {["text"] = "Kibana", ["action"] = "OPEN_KIBANA"}
-
 local getIndexes = function()
     local response = cache.getCacheOr("kibana", function()
         local _, data = hs.http.post(

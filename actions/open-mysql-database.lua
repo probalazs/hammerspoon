@@ -1,12 +1,6 @@
-config = require("../config")
 libs = require("../libs")
 
 local module = {}
-
-module.choice = {
-    ["text"] = "Open mysql database",
-    ["action"] = "OPEN_MYSQL_DATABASE"
-}
 
 local getAllDatabases = function()
     local output = cache.getCacheOr("databases", function()
@@ -33,8 +27,9 @@ local getDatabaseChoices = function(databases)
 end
 
 local openTerminal = function(database)
+    local terminal = "iTerm"
     hs.osascript.applescript([[
-    tell application "]] .. config.terminal .. [["
+    tell application "]] .. terminal .. [["
       create window with default profile command "]] ..
                                  "ssh -t devmgmt1 '/usr/local/sbin/database.sh " ..
                                  database .. "'" .. [["

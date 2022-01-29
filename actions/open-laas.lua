@@ -1,7 +1,5 @@
 cache = require("..cache")
 
-local module = {}
-
 module.choice = {["text"] = "Laas", ["action"] = "OPEN_LAAS"}
 
 local getIndexes = function()
