@@ -23,7 +23,8 @@ spoon.SpoonInstall:andUse(
       fn = function(seal)
         seal:loadPlugins({ 'apps', 'calc', 'useractions' })
         seal.plugins.apps.appSearchPaths = {
-          '/Applications', '/System/Applications', '~/Applications', '/Developer/Applications'
+          '/Applications', '/System/Applications', '~/Applications', '/System/Library/CoreServices/Applications',
+          '/System/Library/CoreServices/'
         }
         seal.plugins.useractions.actions = {
           ['Open page'] = { fn = openPage.run },
