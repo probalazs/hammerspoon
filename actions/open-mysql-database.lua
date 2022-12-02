@@ -16,7 +16,9 @@ local getFilteredDatabases = function(databases)
 end
 
 local getDatabaseChoices = function(databases)
-  return hs.fnutils.map(databases, function(database) return {['text'] = database:gsub('^%s*(.-)%(.*%)%s*$', '%1')} end)
+  return hs.fnutils.map(
+      databases, function(database) return { ['text'] = database:gsub('^%s*(.-)%(.*%)%s*$', '%1') } end
+  )
 end
 
 local openTerminal = function(database)

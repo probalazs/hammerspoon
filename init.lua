@@ -21,20 +21,20 @@ hs.urlevent.bind('start-work', function() startWork.run() end)
 hs.urlevent.bind('stop-work', function() stopWork.run() end)
 
 local actions = {
-  CONNECT_EMAPRSYS_VPN = {text = 'Connect emarsys vpn', module = connectToVpn},
-  RESTART_WIFI = {text = 'Restart WiFi', module = restartWifi},
-  RELOAD_HAMMERSPOON_CONFIG = {text = 'Reload hammerspoon config', module = reloadHammerspoon},
-  START_WORK = {text = 'Start work', module = startWork},
-  STOP_WORK = {text = 'Stop work', module = stopWork}
+  CONNECT_EMAPRSYS_VPN = { text = 'Connect emarsys vpn', module = connectToVpn },
+  RESTART_WIFI = { text = 'Restart WiFi', module = restartWifi },
+  RELOAD_HAMMERSPOON_CONFIG = { text = 'Reload hammerspoon config', module = reloadHammerspoon },
+  START_WORK = { text = 'Start work', module = startWork },
+  STOP_WORK = { text = 'Stop work', module = stopWork }
 }
 
 local getChoices = function(actions)
   local choices = {}
-  for action, module in pairs(actions) do table.insert(choices, {text = module.text, value = action}) end
+  for action, module in pairs(actions) do table.insert(choices, { text = module.text, value = action }) end
   return choices;
 end
 
 hs.hotkey.bind(
-    {'cmd', 'alt', 'ctrl'}, 'P',
-    function() libs.showDailog(getChoices(actions), function(choice) actions[choice.value].module.run() end) end
+    { 'cmd', 'alt', 'ctrl' }, 'P',
+        function() libs.showDailog(getChoices(actions), function(choice) actions[choice.value].module.run() end) end
 )

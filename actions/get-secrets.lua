@@ -23,7 +23,7 @@ end
 
 local getServiceChoices = function(services)
   return hs.fnutils.map(
-      services, function(service) return {['text'] = service.metadata.name, ['id'] = service.metadata.name} end
+      services, function(service) return { ['text'] = service.metadata.name, ['id'] = service.metadata.name } end
   )
 end
 
@@ -34,7 +34,9 @@ end
 
 local getSecretChoices = function(secrets)
   local choices = {}
-  for name, value in pairs(secrets) do table.insert(choices, {['text'] = name, ['subText'] = hs.base64.decode(value)}) end
+  for name, value in pairs(secrets) do
+    table.insert(choices, { ['text'] = name, ['subText'] = hs.base64.decode(value) })
+  end
   return choices
 end
 
