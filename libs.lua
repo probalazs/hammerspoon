@@ -14,14 +14,14 @@ end
 
 function module.urlencode(url)
   if url == nil then return end
-  url = url:gsub("\n", "\r\n")
-  url = url:gsub("([^%w ])", function(char) return string.format("%%%02X", string.byte(char)) end)
-  url = url:gsub(" ", "+")
+  url = url:gsub('\n', '\r\n')
+  url = url:gsub('([^%w ])', function(char) return string.format('%%%02X', string.byte(char)) end)
+  url = url:gsub(' ', '+')
   return url
 end
 
 function module.startsWith(str, start) return str:sub(1, #start) == start end
 
-function module.endsWith(str, ending) return ending == "" or str:sub(-#ending) == ending end
+function module.endsWith(str, ending) return ending == '' or str:sub(-#ending) == ending end
 
 return module
