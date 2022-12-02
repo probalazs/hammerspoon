@@ -12,7 +12,7 @@ spoon.SpoonInstall:andUse('Tunnelblick')
 spoon.SpoonInstall:andUse(
     'TextClipboardHistory', {
       disable = false,
-      config = { show_in_menubar = false, paste_on_select = true },
+      config = { show_in_menubar = false, paste_on_select = true, hist_size = 10000 },
       hotkeys = { toggle_clipboard = { { 'cmd', 'shift' }, 'v' } },
       start = true
     }
