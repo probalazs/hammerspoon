@@ -3,6 +3,7 @@ reloadHammerspoon = require('actions.reload-hammerspoon-config')
 restartWifi = require('actions.restart-wifi')
 startWork = require('actions.start-work')
 stopWork = require('actions.stop-work')
+openPage = require('actions.open-page')
 libs = require('libs')
 
 hs.loadSpoon('SpoonInstall')
@@ -21,6 +22,7 @@ hs.urlevent.bind('start-work', function() startWork.run() end)
 hs.urlevent.bind('stop-work', function() stopWork.run() end)
 
 local actions = {
+  OPEN_PAGE = { text = 'Open page', module = openPage },
   CONNECT_EMAPRSYS_VPN = { text = 'Connect emarsys vpn', module = connectToVpn },
   RESTART_WIFI = { text = 'Restart WiFi', module = restartWifi },
   RELOAD_HAMMERSPOON_CONFIG = { text = 'Reload hammerspoon config', module = reloadHammerspoon },
