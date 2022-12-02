@@ -19,7 +19,7 @@ spoon.SpoonInstall:andUse(
 )
 spoon.SpoonInstall:andUse(
     'Seal', {
-      hotkeys = { show = { { "cmd", "alt", "ctrl", "shift" }, 'space' } },
+      hotkeys = { show = { { 'cmd', 'alt', 'ctrl', 'shift' }, 'space' } },
       fn = function(seal)
         seal:loadPlugins({ 'apps', 'calc', 'useractions' })
         seal.plugins.apps.appSearchPaths = {
