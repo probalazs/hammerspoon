@@ -28,7 +28,7 @@ spoon.SpoonInstall:andUse(
         seal.plugins.useractions.actions = {
           ['Open page'] = { fn = openPage.run },
           ['Go to meeting'] = { fn = goToMeeting.run },
-          ['Connect emarsys vpn'] = { fn = connectToVpn.run },
+          ['Connect to vpn'] = { fn = connectToVpn.run },
           ['Start work'] = { fn = startWork.run },
           ['Stop work'] = { fn = stopWork.run },
           ['Reload hammerspoon config'] = { fn = reloadHammerspoon.run },
