@@ -8,6 +8,14 @@ libs = require('libs')
 
 hs.loadSpoon('SpoonInstall')
 spoon.SpoonInstall:andUse('Tunnelblick')
+spoon.SpoonInstall:andUse(
+    'TextClipboardHistory', {
+      disable = false,
+      config = { show_in_menubar = false, paste_on_select = true },
+      hotkeys = { toggle_clipboard = { { 'cmd', 'shift' }, 'v' } },
+      start = true
+    }
+)
 
 hs.urlevent.bind(
     'open-emarsys-vpn', function(_, params) connectToVpn.run(params.connection, params.user, params.code) end
