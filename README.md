@@ -2,6 +2,8 @@
 
 Create `config.lua` from `config.example.lua` to root.
 
+You can open the tool with `hyper + space` combination.
+
 ## Prerequisite
 + Install hammerspoon ([link](https://www.hammerspoon.org/))
 + Install Karabiner-Elements ([link](https://karabiner-elements.pqrs.org/))
