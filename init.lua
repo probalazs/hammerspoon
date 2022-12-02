@@ -4,6 +4,7 @@ restartWifi = require('actions.restart-wifi')
 startWork = require('actions.start-work')
 stopWork = require('actions.stop-work')
 openPage = require('actions.open-page')
+goToMeeting = require('actions.go-to-meeting')
 libs = require('libs')
 
 hs.loadSpoon('SpoonInstall')
@@ -18,21 +19,31 @@ spoon.SpoonInstall:andUse(
 )
 
 local actions = {
-  OPEN_PAGE = { text = 'Open page', module = openPage },
-  CONNECT_EMAPRSYS_VPN = { text = 'Connect emarsys vpn', module = connectToVpn },
-  RESTART_WIFI = { text = 'Restart WiFi', module = restartWifi },
-  RELOAD_HAMMERSPOON_CONFIG = { text = 'Reload hammerspoon config', module = reloadHammerspoon },
-  START_WORK = { text = 'Start work', module = startWork },
-  STOP_WORK = { text = 'Stop work', module = stopWork }
+  { text = 'Open page', module = openPage },
+  { text = 'Go to meeting', module = goToMeeting },
+  { text = 'Connect emarsys vpn', module = connectToVpn },
+  { text = 'Start work', module = startWork },
+  { text = 'Stop work', module = stopWork },
+  { text = 'Reload hammerspoon config', module = reloadHammerspoon },
+  { text = 'Restart WiFi', module = restartWifi },
 }
 
 local getChoices = function(actions)
   local choices = {}
-  for action, module in pairs(actions) do table.insert(choices, { text = module.text, value = action }) end
+  for _, action in pairs(actions) do
+    table.insert(choices, { text = action.text })
+  end
   return choices;
 end
 
 hs.hotkey.bind(
     { 'cmd', 'alt', 'ctrl' }, 'P',
-        function() libs.showDailog(getChoices(actions), function(choice) actions[choice.value].module.run() end) end
+        function() libs.showDailog(getChoices(actions), function(choice)
+            for _, action in pairs(actions) do
+                if action.text == choice.text then
+                    action.module.run()
+                end
+            end
+        end)
+    end
 )
